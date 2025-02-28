@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+    -webkit-app-region: drag;
+}
+
+.acrylic-background {
+    background-color: rgba(37, 37, 37, 0.836);
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    padding: 1.5rem;
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+.font {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: white;
+}
