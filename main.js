@@ -51,10 +51,10 @@ app.whenReady().then(() => {
     });
 
     mainWindow.on('blur', () => {
-        mainWindow.webContents.send('close-window');
-        setTimeout(async () => {
-            app.quit();
-        }, 1000);
+        // mainWindow.webContents.send('close-window');
+        // setTimeout(async () => {
+        //     app.quit();
+        // }, 1000);
     });
 
     ipcMain.on('resize-window', (event, width, height) => {

@@ -7,7 +7,6 @@ body {
     padding: 0;
     background: transparent;
     overflow: hidden;
-    -webkit-app-region: drag;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,7 +35,6 @@ body {
     align-items: center;
     font-size: 24px;
     color: white;
-    padding: 1.5rem;
     display: inline-block;
     margin: 0.5rem;
     hyphens: auto;
@@ -50,6 +48,7 @@ body {
 }
 
 .translation-container {
+    /* -webkit-app-region: no-drag; */
     opacity: 1;
     display: flex;
     flex-direction: column;
@@ -112,4 +111,37 @@ body {
     100% {
         left: 100%;
     }
+}
+
+.content-main-page {
+    -webkit-app-region: drag;
+    padding: 1.5rem;
+}
+
+.header-container {
+    border-radius: 10px 10px 0px 0px;
+    background-color: grey;
+    padding: 0.5rem;
+}
+
+.header-container:hover {
+    background-color: #2c3e50;
+}
+
+.header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+}
+
+.icon-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+
+.icon-btn:hover {
+    background: #2980b9 !important;
 }
