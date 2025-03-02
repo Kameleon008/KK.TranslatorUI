@@ -32,7 +32,7 @@ function configureMainWindowEvents() {
 
     // blur event
     mainWindow.on('blur', () => {
-        if (commandLineArguments['close-on-blur']) {
+        if (config.closeOnBlur) {
             mainWindow.webContents.send('close-window');
             setTimeout(async () => {
                 app.quit();
@@ -123,12 +123,11 @@ function initalizeMainWindow() {
         let cusrsorPosition = getCursorPosition()
 
         mainWindow = new BrowserWindow({
-            // skipTaskbar: true, // Hide from taskbar
-            frame: false, // Remove window frame
-            resizable: true, // Prevent manual resizing
-            transparent: true, // Enable transparency
-            vibrancy: 'acrylic', // Apply acrylic effect on macOS
-            backgroundMaterial: 'acrylic', // Apply acrylic effect on Windows
+            skipTaskbar: config.mainWindow.skipTaskbar || false, // Hide from taskbar
+            frame: config.mainWindow.frame || false, // Remove window frame
+            resizable: config.mainWindow.resizable || true, // Prevent manual resizing
+            transparent: config.mainWindow.transparent || true, // Enable transparency
+            backgroundMaterial: config.mainWindow.backgroundMaterial || 'acrylic', // Apply acrylic effect on Windows
             x: cusrsorPosition.x, // Offset from the mouse position
             y: cusrsorPosition.y, // Offset from the mouse position
             webPreferences: {
