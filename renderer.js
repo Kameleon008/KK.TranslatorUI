@@ -7,10 +7,15 @@ const translationContainer = document.getElementById('translationContainer')
 const translationResult = document.getElementById('translation')
 
 // Buttons
+const buttonConstrast = document.getElementById('buttonContrast')
 const buttonSettings = document.getElementById('buttonSettings')
 const buttonPin = document.getElementById('buttonPin')
 
 // Buttons Events
+buttonConstrast.addEventListener('click', () => {
+    console.log('buttonConstrast');
+});
+
 buttonSettings.addEventListener('click', () => {
     console.log('Settings');
 });
