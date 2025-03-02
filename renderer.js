@@ -23,7 +23,7 @@ buttonConstrast.addEventListener('click', async () => {
             body.classList.remove('light-theme');
             body.classList.add('dark-theme');
             console.log('Dark Theme');
-            result = await ipcRenderer.invoke('theme-changed', 'dark-theme');
+            result = await ipcRenderer.send('theme-changed', 'dark-theme');
             console.log(result);
             break;
 
@@ -31,7 +31,7 @@ buttonConstrast.addEventListener('click', async () => {
             body.classList.remove('dark-theme');
             body.classList.add('light-theme');
             console.log('Light Theme');
-            result = await ipcRenderer.invoke('theme-changed', 'light-theme');
+            result = await ipcRenderer.send('theme-changed', 'light-theme');
             console.log(result);
             break;
     }
@@ -45,7 +45,8 @@ buttonPin.addEventListener('click', () => {
     console.log('Pin');
 });
 
-// Listen for arguments from main process
+
+// Inter Process Comunication Events
 ipcRenderer.on('arguments', async (event, arguments) => {
 
     console.log(arguments);
@@ -67,10 +68,6 @@ ipcRenderer.on('theme', async (event, theme) => {
 ipcRenderer.on('close-window', () => {
     contentContainer.classList.add('acrylic-background__init');  // Apply the class to the content
 });
-
-async function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 async function getTranslationResult(textToTranslate) {
 

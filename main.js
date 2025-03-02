@@ -8,40 +8,53 @@ let commandLineArguments;
 
 app.whenReady().then(() => {
 
+    // Load configuration
     loadAppsettings();
+
+    //Load command line arguments
     loadCommandLineArguments();
 
+    // Create the main window
     initalizeMainWindow();
 
-    mainWindow.webContents.once('did-finish-load', () => {
-        mainWindow.webContents.send('theme', config.theme);
-        mainWindow.webContents.send('arguments', commandLineArguments);
-    });
+    // Configure Main Window Events
+    configureMainWindowEvents();
 
+    // Configure Inter Process Comunication
+    configureIpcMainEvents();
+});
+
+app.on('window-all-closed', () => {
+    app.quit();
+});
+
+function configureMainWindowEvents() {
+
+    // blur event
     mainWindow.on('blur', () => {
         if (commandLineArguments['close-on-blur']) {
-
             mainWindow.webContents.send('close-window');
             setTimeout(async () => {
                 app.quit();
             }, 1000);
         }
     });
+}
 
+function configureIpcMainEvents() {
+
+    // resize-window event
     ipcMain.on('resize-window', (event, width, height) => {
         mainWindow.setSize(width, height); // Resize the window
     });
 
-    ipcMain.handle('theme-changed', (event, theme) => {
+    // theme-changed event
+    ipcMain.on('theme-changed', (event, theme) => {
         config.theme = theme;
-
-        return saveConfig();
+        saveConfig();
     });
-});
+}
 
-app.on('window-all-closed', () => {
-    app.quit();
-});
 
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -90,13 +103,11 @@ function getCursorPosition() {
     const cursorPoint = screen.getCursorScreenPoint();
     const display = screen.getDisplayNearestPoint(cursorPoint);
 
-    // Calculate window position near the cursor (e.g., 50px offset)
-    const windowX = cursorPoint.x; // Offset for better visibility
+    const windowX = cursorPoint.x;
     const windowY = cursorPoint.y;
 
-    // Ensure the window stays within the screen bounds
     const { width, height, x, y } = display.bounds;
-    const winWidth = 400, winHeight = 300; // Example window size
+    const winWidth = 400, winHeight = 300;
 
     const finalX = Math.min(Math.max(windowX, x), x + width - winWidth);
     const finalY = Math.min(Math.max(windowY, y), y + height - winHeight);
@@ -109,7 +120,6 @@ function getCursorPosition() {
 
 function initalizeMainWindow() {
     {
-
         let cusrsorPosition = getCursorPosition()
 
         mainWindow = new BrowserWindow({
@@ -128,5 +138,11 @@ function initalizeMainWindow() {
         });
 
         mainWindow.loadFile('index.html');
+
+        // Send theme and arguments to the renderer
+        mainWindow.webContents.once('did-finish-load', () => {
+            mainWindow.webContents.send('theme', config.theme);
+            mainWindow.webContents.send('arguments', commandLineArguments);
+        });
     }
 }
