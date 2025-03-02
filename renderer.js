@@ -49,12 +49,11 @@ ipcRenderer.on('config', async (event, config) => {
     }
 });
 
-ipcRenderer.on('arguments', async (event, arguments) => {
+ipcRenderer.on('translate', async (event, commandLineArguments, textToTranslate) => {
 
-    console.log(arguments);
     contentContainer.classList.remove('acrylic-background__init');
 
-    const response = await getTranslationResult(arguments['text']);
+    const response = await getTranslationResult(textToTranslate);
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
 
     translationContainer.classList.remove('translation-container__init');
@@ -73,6 +72,7 @@ ipcRenderer.on('close-window', () => {
 
 async function getTranslationResult(textToTranslate) {
 
+    console.log(textToTranslate);
 
     const response = await fetch("http://localhost:5000/translate", {
         method: "POST",

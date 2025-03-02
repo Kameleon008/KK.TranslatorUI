@@ -5,6 +5,7 @@ const path = require("path");
 let config;
 let mainWindow;
 let commandLineArguments;
+let textToTranslate;
 
 app.whenReady().then(() => {
 
@@ -103,6 +104,22 @@ function loadCommandLineArguments() {
 
     commandLineArguments = parsedArgs;
     console.log("Command line arguments:", commandLineArguments);
+
+    const fileIndex = args.indexOf("--file"); // Find "--file" argument
+
+    if (fileIndex !== -1 && args[fileIndex + 1]) { // Ensure there's a value after "--file"
+        const filePath = args[fileIndex + 1];
+
+        fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+                console.error("Error reading file:", err);
+                return;
+            }
+
+            textToTranslate = data;
+            console.log("Selected Text:", data); // Process the file content
+        });
+    }
 }
 
 function getCursorPosition() {
@@ -149,7 +166,7 @@ function initalizeMainWindow() {
         mainWindow.webContents.once('did-finish-load', () => {
             mainWindow.webContents.send('theme', config.theme);
             mainWindow.webContents.send('config', config);
-            mainWindow.webContents.send('arguments', commandLineArguments);
+            mainWindow.webContents.send('translate', commandLineArguments, textToTranslate);
         });
     }
 }

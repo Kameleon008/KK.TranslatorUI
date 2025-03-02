@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --text \"Text to translate\" --close-on-blur"
+    "start": "electron . --file \"C:\\Users\\Kochanowskik\\AppData\\Local\\Temp\\selected_text.txt\" --close-on-blur"
   },
   "devDependencies": {
     "electron-packager": "^17.1.2"
