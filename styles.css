@@ -7,6 +7,7 @@
     --content-background-color: #ffffff;
     --opacity-percentage: 25%;
     --text-color: #000000;
+    --active-color: #0000ff;
 }
 
 .dark-theme {
@@ -14,6 +15,7 @@
     --content-background-color: #353535;
     --opacity-percentage: 25%;
     --text-color: #ffffff;
+    --active-color: #ffff00;
 }
 
 body {
@@ -163,4 +165,14 @@ body {
 .icon-button:active {
     transform: scale(0.8);
     color: color-mix(in srgb, var(--header-background-color) 50%, transparent 100%);
+}
+
+#buttonPin.icon-button {
+    display: inline-block;
+    transition: transform var(--animation-time) ease;
+}
+
+#buttonPin.icon-button.active {
+    color: var(--active-color);
+    transform: rotate(60deg);
 }

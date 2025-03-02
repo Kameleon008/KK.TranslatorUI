@@ -13,26 +13,20 @@ const buttonSettings = document.getElementById('buttonSettings')
 const buttonPin = document.getElementById('buttonPin')
 
 // Buttons Events
-buttonConstrast.addEventListener('click', async () => {
-
-    let result;
+buttonConstrast.addEventListener('click', () => {
 
     switch (body.classList[0]) {
 
         case 'light-theme':
             body.classList.remove('light-theme');
             body.classList.add('dark-theme');
-            console.log('Dark Theme');
-            result = await ipcRenderer.send('theme-changed', 'dark-theme');
-            console.log(result);
+            ipcRenderer.send('theme-changed', 'dark-theme');
             break;
 
         case 'dark-theme':
             body.classList.remove('dark-theme');
             body.classList.add('light-theme');
-            console.log('Light Theme');
-            result = await ipcRenderer.send('theme-changed', 'light-theme');
-            console.log(result);
+            ipcRenderer.send('theme-changed', 'light-theme');
             break;
     }
 });
@@ -42,11 +36,19 @@ buttonSettings.addEventListener('click', () => {
 });
 
 buttonPin.addEventListener('click', () => {
+    buttonPin.classList.toggle('active');
+    ipcRenderer.send('close-on-blur-changed');
     console.log('Pin');
 });
 
 
 // Inter Process Comunication Events
+ipcRenderer.on('config', async (event, config) => {
+    if (!config.closeOnBlur) {
+        buttonPin.classList.add('active');
+    }
+});
+
 ipcRenderer.on('arguments', async (event, arguments) => {
 
     console.log(arguments);

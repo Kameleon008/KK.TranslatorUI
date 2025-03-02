@@ -30,7 +30,7 @@ app.on('window-all-closed', () => {
 
 function configureMainWindowEvents() {
 
-    // blur event
+    // 'blur' event
     mainWindow.on('blur', () => {
         if (config.closeOnBlur) {
             mainWindow.webContents.send('close-window');
@@ -43,14 +43,20 @@ function configureMainWindowEvents() {
 
 function configureIpcMainEvents() {
 
-    // resize-window event
+    // 'resize-window' event
     ipcMain.on('resize-window', (event, width, height) => {
         mainWindow.setSize(width, height); // Resize the window
     });
 
-    // theme-changed event
+    // 'theme-changed' event
     ipcMain.on('theme-changed', (event, theme) => {
         config.theme = theme;
+        saveConfig();
+    });
+
+    // 'close-on-blur-changed' event
+    ipcMain.on('close-on-blur-changed', (event) => {
+        config.closeOnBlur = !config.closeOnBlur;
         saveConfig();
     });
 }
@@ -128,6 +134,7 @@ function initalizeMainWindow() {
             resizable: config.mainWindow.resizable || true, // Prevent manual resizing
             transparent: config.mainWindow.transparent || true, // Enable transparency
             backgroundMaterial: config.mainWindow.backgroundMaterial || 'acrylic', // Apply acrylic effect on Windows
+            alwaysOnTop: config.mainWindow.alwaysOnTop || true, // Keep window on top
             x: cusrsorPosition.x, // Offset from the mouse position
             y: cusrsorPosition.y, // Offset from the mouse position
             webPreferences: {
@@ -141,6 +148,7 @@ function initalizeMainWindow() {
         // Send theme and arguments to the renderer
         mainWindow.webContents.once('did-finish-load', () => {
             mainWindow.webContents.send('theme', config.theme);
+            mainWindow.webContents.send('config', config);
             mainWindow.webContents.send('arguments', commandLineArguments);
         });
     }
