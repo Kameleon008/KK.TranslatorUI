@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 // HTML Elements
+const body = document.getElementById('body')
 const contentContainer = document.getElementById('content')
 const waitingBar = document.getElementById('progressBarContainer')
 const translationContainer = document.getElementById('translationContainer')
@@ -14,6 +15,8 @@ const buttonPin = document.getElementById('buttonPin')
 // Buttons Events
 buttonConstrast.addEventListener('click', () => {
     console.log('buttonConstrast');
+    body.classList.toggle('light-theme');
+    body.classList.toggle('dark-theme');
 });
 
 buttonSettings.addEventListener('click', () => {
