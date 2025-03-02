@@ -48,6 +48,7 @@ buttonPin.addEventListener('click', () => {
 // Listen for arguments from main process
 ipcRenderer.on('arguments', async (event, arguments) => {
 
+    console.log(arguments);
     contentContainer.classList.remove('acrylic-background__init');
 
     const response = await getTranslationResult(arguments['text']);
