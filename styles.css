@@ -7,7 +7,6 @@ body {
     padding: 0;
     background: transparent;
     overflow: hidden;
-    -webkit-app-region: drag;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,7 +35,6 @@ body {
     align-items: center;
     font-size: 24px;
     color: white;
-    padding: 1.5rem;
     display: inline-block;
     margin: 0.5rem;
     hyphens: auto;
@@ -50,6 +48,7 @@ body {
 }
 
 .translation-container {
+    /* -webkit-app-region: no-drag; */
     opacity: 1;
     display: flex;
     flex-direction: column;
@@ -112,4 +111,37 @@ body {
     100% {
         left: 100%;
     }
+}
+
+.content-main-page {
+    -webkit-app-region: drag;
+    padding: 1.5rem;
+}
+
+.header-container {
+    border-radius: 10px 10px 0px 0px;
+    background-color: color-mix(in srgb, rgb(0, 0, 0) 25%, transparent 100%);
+    padding: 0.5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+}
+
+.icon-button {
+    background: transparent;
+    color: white;
+    border: none;
+    transition: 0.3s;
+    font-size: 1.2rem !important;
+    padding: 0.2rem;
+    border-radius: 50%;
+}
+
+.icon-button:active {
+    transform: scale(0.8);
+    color: color-mix(in srgb, rgb(255, 255, 255) 50%, transparent 100%);
 }

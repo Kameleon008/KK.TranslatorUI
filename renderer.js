@@ -6,6 +6,24 @@ const waitingBar = document.getElementById('progressBarContainer')
 const translationContainer = document.getElementById('translationContainer')
 const translationResult = document.getElementById('translation')
 
+// Buttons
+const buttonConstrast = document.getElementById('buttonContrast')
+const buttonSettings = document.getElementById('buttonSettings')
+const buttonPin = document.getElementById('buttonPin')
+
+// Buttons Events
+buttonConstrast.addEventListener('click', () => {
+    console.log('buttonConstrast');
+});
+
+buttonSettings.addEventListener('click', () => {
+    console.log('Settings');
+});
+
+buttonPin.addEventListener('click', () => {
+    console.log('Pin');
+});
+
 // Listen for arguments from main process
 ipcRenderer.on('arguments', async (event, arguments) => {
 

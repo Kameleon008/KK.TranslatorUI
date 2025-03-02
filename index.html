@@ -6,23 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron Arguments</title>
     <link rel="stylesheet" href="./styles.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <script defer src="./renderer.js"></script>
 </head>
 
 <body>
     <div id="content" class="acrylic-background acrylic-background__init">
 
-        <!-- Waiting Bar -->
-        <div id="progressBarContainer" class="progress-bar-container">
-            <div class="progress-bar">
-                <div class="progress"></div>
+        <!-- Header -->
+        <div id="headerContainer" class="header-container">
+            <div class="header">
+                <div class="header-buttons">
+                    <button id="buttonContrast" class="material-icons-outlined icon-button">contrast</button>
+                    <button id="buttonSettings" class="material-icons-outlined icon-button">settings</button>
+                    <button id="buttonPin" class="material-icons-outlined icon-button">push_pin</button>
+                </div>
             </div>
         </div>
 
-        <!-- Translation -->
-        <div id="translationContainer" class="translation-container translation-container__init">
-            <div id="translation" class="translation"></div>
+        <div class="content-main-page">
+
+            <!-- Waiting Bar -->
+            <div id="progressBarContainer" class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+
+            <!-- Translation -->
+            <div id="translationContainer" class="translation-container translation-container__init">
+                <div id="translation" class="translation"></div>
+            </div>
         </div>
     </div>
 
