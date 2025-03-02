@@ -7,12 +7,11 @@ const translationContainer = document.getElementById('translationContainer')
 const translationResult = document.getElementById('translation')
 
 // Listen for arguments from main process
-ipcRenderer.on('arguments', async (event, argObject) => {
+ipcRenderer.on('arguments', async (event, arguments) => {
 
-    await wait(1000);
     contentContainer.classList.remove('acrylic-background__init');
 
-    const response = await getTranslationResult(argObject);
+    const response = await getTranslationResult(arguments['text']);
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
 
     translationContainer.classList.remove('translation-container__init');
@@ -21,17 +20,21 @@ ipcRenderer.on('arguments', async (event, argObject) => {
     ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, contentContainer.clientHeight + 100);
 });
 
+ipcRenderer.on('close-window', () => {
+    contentContainer.classList.add('acrylic-background__init');  // Apply the class to the content
+});
+
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function getTranslationResult(argObject) {
+async function getTranslationResult(textToTranslate) {
 
 
     const response = await fetch("http://localhost:5000/translate", {
         method: "POST",
         body: JSON.stringify({
-            q: argObject.username,
+            q: textToTranslate,
             source: "auto",
             target: "pl",
             format: "text",

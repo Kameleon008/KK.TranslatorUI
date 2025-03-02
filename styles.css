@@ -1,3 +1,7 @@
+:root {
+    --animation-time: 0.6s;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -8,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     opacity: 0;
-    animation: bodyAppearance 1s ease-out forwards;
+    animation: bodyAppearance var(--animation-time) ease-out forwards;
 }
 
 @keyframes bodyAppearance {
@@ -37,12 +41,12 @@ body {
     margin: 0.5rem;
     hyphens: auto;
     word-break: break-word;
-    transition: opacity 0.6s ease;
+    transition: opacity var(--animation-time) ease;
 }
 
 .acrylic-background__init {
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity var(--animation-time) ease;
 }
 
 .translation-container {
@@ -55,12 +59,12 @@ body {
     height: 100%;
     width: 40rem;
     height: auto;
-    transition: opacity 0.6s ease;
+    transition: opacity var(--animation-time) ease;
 }
 
 .translation-container__init {
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity var(--animation-time) ease;
 }
 
 .translation {
@@ -93,7 +97,7 @@ body {
     background: rgb(65, 64, 64);
     position: absolute;
     left: -100%;
-    animation: moveProgress 0.6s linear infinite;
+    animation: moveProgress var(--animation-time) linear infinite;
 }
 
 .progress-bar-container__hidden {
