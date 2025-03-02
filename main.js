@@ -1,8 +1,13 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const fs = require("fs");
+const path = require("path");
 
+let config;
 let mainWindow;
 
 app.whenReady().then(() => {
+
+    loadConfig();
 
     // Extract command-line arguments
     const args = process.argv.slice(2);
@@ -47,6 +52,7 @@ app.whenReady().then(() => {
     mainWindow.loadFile('index.html');
 
     mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.webContents.send('theme', config.theme);
         mainWindow.webContents.send('arguments', argObject);
     });
 
@@ -62,6 +68,14 @@ app.whenReady().then(() => {
         mainWindow.setSize(width, height); // Resize the window
     });
 
+    ipcMain.handle('theme-changed', (event, theme) => {
+        console.log('Theme changed:', theme);
+        console.log(config);
+        config.theme = theme;
+        config = { ...config, theme: theme };
+
+        return saveConfig();
+    });
 });
 
 app.on('window-all-closed', () => {
@@ -70,4 +84,27 @@ app.on('window-all-closed', () => {
 
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function saveConfig() {
+    try {
+        const configPath = path.join(__dirname, "appsettings.json");
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
+        console.log("Config saved:", config);
+        return true;
+    } catch (error) {
+        console.error("Failed to save config:", error);
+        return false;
+    }
+}
+
+function loadConfig() {
+    const configPath = path.join(__dirname, "appsettings.json");
+    try {
+        const data = fs.readFileSync(configPath, "utf-8");
+        config = JSON.parse(data);
+        console.log("Config loaded:", config);
+    } catch (error) {
+        console.error("Failed to load config:", error);
+    }
 }

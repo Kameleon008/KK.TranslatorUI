@@ -2,6 +2,20 @@
     --animation-time: 0.6s;
 }
 
+.light-theme {
+    --header-background-color: #dddddd;
+    --content-background-color: #ffffff;
+    --opacity-percentage: 25%;
+    --text-color: #000000;
+}
+
+.dark-theme {
+    --header-background-color: #202020;
+    --content-background-color: #353535;
+    --opacity-percentage: 25%;
+    --text-color: #ffffff;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -12,6 +26,8 @@ body {
     align-items: center;
     opacity: 0;
     animation: bodyAppearance var(--animation-time) ease-out forwards;
+    transition: background-color var(--animation-time) ease;
+    transition: color var(--animation-time) ease;
 }
 
 @keyframes bodyAppearance {
@@ -26,7 +42,7 @@ body {
 
 .acrylic-background {
     opacity: 1;
-    background-color: rgba(37, 37, 37, 0.836);
+    background-color: color-mix(in srgb, var(--content-background-color) 100%, transparent var(--opacity-percentage));
     backdrop-filter: blur(100px);
     -webkit-backdrop-filter: blur(100px);
     border-radius: 10px;
@@ -34,7 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    color: white;
+    color: var(--text-color);
     display: inline-block;
     margin: 0.5rem;
     hyphens: auto;
@@ -48,7 +64,6 @@ body {
 }
 
 .translation-container {
-    /* -webkit-app-region: no-drag; */
     opacity: 1;
     display: flex;
     flex-direction: column;
@@ -67,9 +82,11 @@ body {
 }
 
 .translation {
+    -webkit-app-region: no-drag;
     font-size: 16px;
     font-family: Arial, sans-serif;
-    color: white;
+    color: var(--text-color);
+    ;
 }
 
 .progress-bar-container {
@@ -119,8 +136,9 @@ body {
 }
 
 .header-container {
+    -webkit-app-region: drag;
     border-radius: 10px 10px 0px 0px;
-    background-color: color-mix(in srgb, rgb(0, 0, 0) 25%, transparent 100%);
+    background-color: color-mix(in srgb, var(--header-background-color) 100%, transparent var(--opacity-percentage));
     padding: 0.5rem;
 }
 
@@ -132,8 +150,9 @@ body {
 }
 
 .icon-button {
+    -webkit-app-region: no-drag;
     background: transparent;
-    color: white;
+    color: var(--text-color);
     border: none;
     transition: 0.3s;
     font-size: 1.2rem !important;
@@ -143,5 +162,5 @@ body {
 
 .icon-button:active {
     transform: scale(0.8);
-    color: color-mix(in srgb, rgb(255, 255, 255) 50%, transparent 100%);
+    color: color-mix(in srgb, var(--header-background-color) 50%, transparent 100%);
 }

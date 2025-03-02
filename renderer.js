@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 // HTML Elements
+const body = document.getElementById('body')
 const contentContainer = document.getElementById('content')
 const waitingBar = document.getElementById('progressBarContainer')
 const translationContainer = document.getElementById('translationContainer')
@@ -12,8 +13,28 @@ const buttonSettings = document.getElementById('buttonSettings')
 const buttonPin = document.getElementById('buttonPin')
 
 // Buttons Events
-buttonConstrast.addEventListener('click', () => {
-    console.log('buttonConstrast');
+buttonConstrast.addEventListener('click', async () => {
+
+    let result;
+
+    switch (body.classList[0]) {
+
+        case 'light-theme':
+            body.classList.remove('light-theme');
+            body.classList.add('dark-theme');
+            console.log('Dark Theme');
+            result = await ipcRenderer.invoke('theme-changed', 'dark-theme');
+            console.log(result);
+            break;
+
+        case 'dark-theme':
+            body.classList.remove('dark-theme');
+            body.classList.add('light-theme');
+            console.log('Light Theme');
+            result = await ipcRenderer.invoke('theme-changed', 'light-theme');
+            console.log(result);
+            break;
+    }
 });
 
 buttonSettings.addEventListener('click', () => {
@@ -36,6 +57,10 @@ ipcRenderer.on('arguments', async (event, arguments) => {
     waitingBar.classList.add(`progress-bar-container__hidden`);
 
     ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, contentContainer.clientHeight + 100);
+});
+
+ipcRenderer.on('theme', async (event, theme) => {
+    body.classList.add(theme);
 });
 
 ipcRenderer.on('close-window', () => {
