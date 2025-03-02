@@ -15,8 +15,6 @@ app.whenReady().then(() => {
         }
     });
 
-    console.log("Parsed Arguments:", argObject);
-
     const cursorPoint = screen.getCursorScreenPoint();
     const display = screen.getDisplayNearestPoint(cursorPoint);
 
@@ -48,27 +46,28 @@ app.whenReady().then(() => {
 
     mainWindow.loadFile('index.html');
 
-    // Send arguments AFTER the window loads
-
     mainWindow.webContents.once('did-finish-load', () => {
-        // mainWindow.openDevTools(); // Open DevTools for debugging
         mainWindow.webContents.send('arguments', argObject);
     });
 
-    ipcMain.on('resize-window', (event, width, height, message) => {
-        console.error("Resizing window to:", width, height);
+    mainWindow.on('blur', () => {
+        mainWindow.webContents.send('close-window');
+        setTimeout(async () => {
+            app.quit();
+        }, 1000);
+    });
+
+    ipcMain.on('resize-window', (event, width, height) => {
+        console.log('Resizing window');
         mainWindow.setSize(width, height); // Resize the window
     });
 
-    // Close AFTER UI updates (small delay)
-    // mainWindow.on('blur', () => {
-    //     setTimeout(() => {
-    //         console.log("Window lost focus, closing...");
-    //         app.quit();
-    //     }, 500); // 500ms delay to allow UI update
-    // });
 });
 
 app.on('window-all-closed', () => {
     app.quit();
 });
+
+async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
