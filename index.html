@@ -6,16 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron Arguments</title>
     <link rel="stylesheet" href="./styles.css">
+
+    <script defer src="./renderer.js"></script>
 </head>
 
 <body>
-    <div id="content">
-        <div class="acrylic-background">
-            <div class="font" id="username">Username: Loading...</div>
+    <div id="content" class="acrylic-background acrylic-background__init">
+
+        <!-- Waiting Bar -->
+        <div id="progressBarContainer" class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+
+        <!-- Translation -->
+        <div id="translationContainer" class="translation-container translation-container__init">
+            <div id="translation" class="translation"></div>
         </div>
     </div>
 
-    <script src="./renderer.js"></script>
 </body>
 
 </html>
