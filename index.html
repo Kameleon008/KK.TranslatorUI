@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="content-main-page">
+        <div id="translationContent" class="content-main-page">
 
             <!-- Waiting Bar -->
             <div id="progressBarContainer" class="progress-bar-container">
@@ -37,6 +37,34 @@
             <div id="translationContainer" class="translation-container translation-container__init">
                 <div id="translation" class="translation"></div>
             </div>
+        </div>
+
+        <div id="settingsContent" class="settings-main-page collapse">
+
+            <!-- Settings (below some boilerplate code)--> 
+            <div id="settingsContainer" class="settings-container settings-container__init">
+                <div class="settings">
+                    <div class="settings-header">
+                        <div class="settings-header-title">Settings</div>
+                        <button id="buttonCloseSettings" class="material-icons-outlined icon-button">close</button>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-content-item">
+                            <div class="settings-content-item-title">Language</div>
+                            <select id="selectLanguage" class="settings-content-item-select">
+                                <option value="en">English</option>
+                                <option value="ru">Russian</option>
+                            </select>
+                        </div>
+                        <div class="settings-content-item">
+                            <div class="settings-content-item-title">Theme</div>
+                            <select id="selectTheme" class="settings-content-item-select">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 
