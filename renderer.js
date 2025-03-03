@@ -7,6 +7,9 @@ const waitingBar = document.getElementById('progressBarContainer')
 const translationContainer = document.getElementById('translationContainer')
 const translationResult = document.getElementById('translation')
 
+const translationContent = document.getElementById('translationContent')
+const settingsContent = document.getElementById('settingsContent')
+
 // Buttons
 const buttonConstrast = document.getElementById('buttonContrast')
 const buttonSettings = document.getElementById('buttonSettings')
@@ -31,14 +34,27 @@ buttonConstrast.addEventListener('click', () => {
     }
 });
 
-buttonSettings.addEventListener('click', () => {
-    console.log('Settings');
+buttonSettings.addEventListener('click', async () => {
+
+    buttonSettings.classList.toggle('active');
+
+    if (buttonSettings.classList.contains('active')) {
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, 1000); await wait(200);
+        translationContent.classList.toggle('collapse'); await wait(1000);
+        settingsContent.classList.toggle('collapse'); await wait(1000);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, settingsContent.clientHeight + 100);
+    }
+    else {
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, 1000); await wait(200);
+        settingsContent.classList.toggle('collapse'); await wait(1000);
+        translationContent.classList.toggle('collapse'); await wait(1000);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, translationContent.clientHeight + 100);
+    }
 });
 
 buttonPin.addEventListener('click', () => {
     buttonPin.classList.toggle('active');
     ipcRenderer.send('close-on-blur-changed');
-    console.log('Pin');
 });
 
 
@@ -92,4 +108,8 @@ async function getTranslationResult(textToTranslate) {
     }
 
     return await response.json();;
+}
+
+async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
