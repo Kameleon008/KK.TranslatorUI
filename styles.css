@@ -136,11 +136,6 @@ body {
 
 .content-main-page {
     width: 40rem;
-    max-height: 50rem;
-    overflow: hidden;
-    -webkit-app-region: drag;
-    padding: 1.5rem;
-    width: 40rem;
     max-height: 30rem;
     overflow: hidden;
     -webkit-app-region: drag;
@@ -153,10 +148,10 @@ body {
 }
 
 .settings-main-page {
-    -webkit-app-region: no-drag;
     width: 40rem;
     max-height: 30rem;
     overflow: hidden;
+    -webkit-app-region: no-drag;
     margin: 1.5rem;
     transition:
         max-height var(--animation-time) ease-in-out,
