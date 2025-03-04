@@ -87,10 +87,9 @@ function initalizeMainWindow() {
 
         // Send theme and arguments to the renderer
         mainWindow.webContents.once('did-finish-load', () => {
-            console.log(argsResults)
             mainWindow.webContents.send('theme', config.theme);
             mainWindow.webContents.send('config', config);
-            mainWindow.webContents.send('translate', args, argsResults.text);
+            mainWindow.webContents.send('translate', argsResults.text);
         });
     }
 }

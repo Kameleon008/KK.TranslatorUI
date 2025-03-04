@@ -65,13 +65,11 @@ ipcRenderer.on('config', async (event, config) => {
     }
 });
 
-ipcRenderer.on('translate', async (event, commandLineArguments, textToTranslate) => {
+ipcRenderer.on('translate', async (event, textToTranslate) => {
 
     contentContainer.classList.remove('acrylic-background__init');
-    console.log("text:", textToTranslate);
     const response = await getTranslationResult(textToTranslate);
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
-
     translationContainer.classList.remove('translation-container__init');
     waitingBar.classList.add(`progress-bar-container__hidden`);
 
