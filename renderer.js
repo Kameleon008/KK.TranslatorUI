@@ -39,16 +39,16 @@ buttonSettings.addEventListener('click', async () => {
     buttonSettings.classList.toggle('active');
 
     if (buttonSettings.classList.contains('active')) {
-        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, 1000); await wait(200);
-        translationContent.classList.toggle('collapse'); await wait(1000);
-        settingsContent.classList.toggle('collapse'); await wait(1000);
-        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, settingsContent.clientHeight + 100);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, 1000); await wait(200);
+        translationContent.classList.toggle('collapse'); await wait(600);
+        settingsContent.classList.toggle('collapse'); await wait(600);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, settingsContent.clientHeight + 120);
     }
     else {
-        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, 1000); await wait(200);
-        settingsContent.classList.toggle('collapse'); await wait(1000);
-        translationContent.classList.toggle('collapse'); await wait(1000);
-        ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, translationContent.clientHeight + 100);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, 1000); await wait(200);
+        settingsContent.classList.toggle('collapse'); await wait(600);
+        translationContent.classList.toggle('collapse'); await wait(600);
+        ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, translationContent.clientHeight + 120);
     }
 });
 
@@ -75,7 +75,7 @@ ipcRenderer.on('translate', async (event, commandLineArguments, textToTranslate)
     translationContainer.classList.remove('translation-container__init');
     waitingBar.classList.add(`progress-bar-container__hidden`);
 
-    ipcRenderer.send('resize-window', contentContainer.clientWidth + 100, contentContainer.clientHeight + 100);
+    ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, contentContainer.clientHeight + 120);
 });
 
 ipcRenderer.on('theme', async (event, theme) => {
