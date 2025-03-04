@@ -160,7 +160,7 @@ function initalizeMainWindow() {
             }
         });
 
-        mainWindow.loadFile('index.html');
+        mainWindow.loadFile('./index/index.html');
 
         // Send theme and arguments to the renderer
         mainWindow.webContents.once('did-finish-load', () => {
