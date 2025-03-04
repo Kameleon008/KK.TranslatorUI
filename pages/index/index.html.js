@@ -68,7 +68,7 @@ ipcRenderer.on('config', async (event, config) => {
 ipcRenderer.on('translate', async (event, commandLineArguments, textToTranslate) => {
 
     contentContainer.classList.remove('acrylic-background__init');
-
+    console.log("text:", textToTranslate);
     const response = await getTranslationResult(textToTranslate);
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
 
@@ -79,6 +79,7 @@ ipcRenderer.on('translate', async (event, commandLineArguments, textToTranslate)
 });
 
 ipcRenderer.on('theme', async (event, theme) => {
+    console.log("theme:", theme);
     body.classList.add(theme);
 });
 

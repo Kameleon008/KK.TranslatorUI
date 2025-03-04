@@ -1,19 +1,21 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron');
-const fs = require("fs");
-const path = require("path");
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { parseArguments, processArguments } = require('./shared/argsParser');
+const { saveAppsettings, loadAppsettings } = require('./shared/appsettings');
+const { getCursorPosition } = require('./shared/utils');
 
 let config;
 let mainWindow;
-let commandLineArguments;
-let textToTranslate;
+let args;
+let argsResults;
 
 app.whenReady().then(() => {
 
     // Load configuration
-    loadAppsettings();
+    config = loadAppsettings();
 
     //Load command line arguments
-    loadCommandLineArguments();
+    args = parseArguments(process.argv);
+    argsResults = processArguments(args);
 
     // Create the main window
     initalizeMainWindow();
@@ -52,93 +54,14 @@ function configureIpcMainEvents() {
     // 'theme-changed' event
     ipcMain.on('theme-changed', (event, theme) => {
         config.theme = theme;
-        saveConfig();
+        saveAppsettings(config);
     });
 
     // 'close-on-blur-changed' event
     ipcMain.on('close-on-blur-changed', (event) => {
         config.closeOnBlur = !config.closeOnBlur;
-        saveConfig();
+        saveAppsettings(config);
     });
-}
-
-
-async function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function saveConfig() {
-    try {
-        const configPath = path.join(__dirname, "appsettings.json");
-        fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
-        console.log("Config saved:", config);
-    }
-    catch (error) {
-        console.error("Failed to save config:", error);
-    }
-}
-
-function loadAppsettings() {
-    try {
-        const configPath = path.join(__dirname, "appsettings.json");
-        const data = fs.readFileSync(configPath, "utf-8");
-        config = JSON.parse(data);
-        console.log("Config loaded:", config);
-    }
-    catch (error) {
-        console.error("Failed to load config:", error);
-    }
-}
-
-function loadCommandLineArguments() {
-    let args = process.argv.slice(2);
-    let parsedArgs = {};
-
-    args.forEach((arg, index) => {
-        if (arg.startsWith('--')) {
-            const key = arg.replace(/^--/, "");
-            const value = args[index + 1]?.startsWith('--') || args[index + 1] === undefined ? true : args[index + 1];
-            parsedArgs[key] = value;
-        }
-    });
-
-    commandLineArguments = parsedArgs;
-    console.log("Command line arguments:", commandLineArguments);
-
-    const fileIndex = args.indexOf("--file"); // Find "--file" argument
-
-    if (fileIndex !== -1 && args[fileIndex + 1]) { // Ensure there's a value after "--file"
-        const filePath = args[fileIndex + 1];
-
-        fs.readFile(filePath, "utf8", (err, data) => {
-            if (err) {
-                console.error("Error reading file:", err);
-                return;
-            }
-
-            textToTranslate = data;
-            console.log("Selected Text:", data); // Process the file content
-        });
-    }
-}
-
-function getCursorPosition() {
-    const cursorPoint = screen.getCursorScreenPoint();
-    const display = screen.getDisplayNearestPoint(cursorPoint);
-
-    const windowX = cursorPoint.x;
-    const windowY = cursorPoint.y;
-
-    const { width, height, x, y } = display.bounds;
-    const winWidth = 400, winHeight = 300;
-
-    const finalX = Math.min(Math.max(windowX, x), x + width - winWidth);
-    const finalY = Math.min(Math.max(windowY, y), y + height - winHeight);
-
-    return {
-        x: finalX,
-        y: finalY
-    }
 }
 
 function initalizeMainWindow() {
@@ -160,13 +83,14 @@ function initalizeMainWindow() {
             }
         });
 
-        mainWindow.loadFile('./index/index.html');
+        mainWindow.loadFile('./pages/index/index.html');
 
         // Send theme and arguments to the renderer
         mainWindow.webContents.once('did-finish-load', () => {
+            console.log(argsResults)
             mainWindow.webContents.send('theme', config.theme);
             mainWindow.webContents.send('config', config);
-            mainWindow.webContents.send('translate', commandLineArguments, textToTranslate);
+            mainWindow.webContents.send('translate', args, argsResults.text);
         });
     }
 }
