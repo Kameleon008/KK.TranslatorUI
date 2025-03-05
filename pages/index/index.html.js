@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const { selectStrategy, getStrategyResult} = require('../../strategies/strategies')
 
 // HTML Elements
 const body = document.getElementById('body')
@@ -89,24 +90,7 @@ async function getTranslationResult(textToTranslate) {
 
     console.log(textToTranslate);
 
-    const response = await fetch("http://localhost:5000/translate", {
-        method: "POST",
-        body: JSON.stringify({
-            q: textToTranslate,
-            source: "auto",
-            target: "pl",
-            format: "text",
-            alternatives: 1,
-            api_key: ""
-        }),
-        headers: { "Content-Type": "application/json" }
-    });
-
-    if (response.ok === false) {
-        throw new Error('Network response was not ok ' + response.statusText);
-    }
-
-    return await response.json();;
+    return await getStrategyResult("googleTranslate", textToTranslate);
 }
 
 async function wait(ms) {
