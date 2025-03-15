@@ -12,12 +12,12 @@ const translationContent = document.getElementById('translationContent')
 const settingsContent = document.getElementById('settingsContent')
 
 // Buttons
-const buttonConstrast = document.getElementById('buttonContrast')
+const buttonContrast = document.getElementById('buttonContrast')
 const buttonSettings = document.getElementById('buttonSettings')
 const buttonPin = document.getElementById('buttonPin')
 
 // Buttons Events
-buttonConstrast.addEventListener('click', () => {
+buttonContrast.addEventListener('click', () => {
 
     switch (body.classList[0]) {
 
@@ -59,7 +59,7 @@ buttonPin.addEventListener('click', () => {
 });
 
 
-// Inter Process Comunication Events
+// Inter Process Communication Events
 ipcRenderer.on('config', async (event, config) => {
     if (!config.closeOnBlur) {
         buttonPin.classList.add('active');
@@ -90,7 +90,7 @@ async function getTranslationResult(textToTranslate) {
 
     console.log(textToTranslate);
 
-    return await getStrategyResult("googleTranslate", textToTranslate);
+    return await getStrategyResult("ollamaTranslate", textToTranslate);
 }
 
 async function wait(ms) {
