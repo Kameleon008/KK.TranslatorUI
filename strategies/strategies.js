@@ -1,0 +1,17 @@
+async function getStrategyResult(selectedStrategy, input) {
+
+    console.log("strategies/strategies.js: getStrategyResult", selectedStrategy, input);
+
+    switch (selectedStrategy) {
+        case "libraTranslate": result = await require('./libra-translate/libra-translate').execute(input); break;
+        case "googleTranslate": result = await require('./google-translate/google-translate').execute(input); break;
+        // default: return require('./libra-translate/libra-translate').execute(input);
+    }
+
+    console.log(result);
+    return result;
+}
+
+module.exports = {
+    getStrategyResult
+};
