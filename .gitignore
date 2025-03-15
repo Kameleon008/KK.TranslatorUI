@@ -57,3 +57,6 @@ spec/fixtures/logo.png
 # Ignore appsettings.json and environment-specific files
 appsettings.json
 appsettings.*.json
+
+# Ignore files with local prefix
+local.*
