@@ -1,11 +1,21 @@
+const { loadAppsettings } = require('../../shared/appsettings');
+
 async function execute(arguments) {
+    
+    let config = loadAppsettings();
     console.log("strategies/ollama-translate/ollama-translate.js: execute", arguments);
 
-    const response = await fetch("http://localhost:11434/api/generate", {
+    var targetLanguage = config.translationStrategyOptions.targetLanguage;
+    var apiUrl = config.translationStrategyOptions.ollamaTranslate.apiUrl;
+    var model = config.translationStrategyOptions.ollamaTranslate.model;
+
+    console.log("strategies/ollama-translate/ollama-translate.js: execute", targetLanguage, apiUrl, model);
+
+    const response = await fetch(apiUrl, {
         method: "POST",
         body: JSON.stringify({
-            "model": "gemma3:12b",
-            "prompt": `Translate text below to Polish. In response i want to get just translated text.: \n\n "${arguments}"`,
+            "model": model,
+            "prompt": `Translate text below to ${targetLanguage}. In response i want to get just translated text.: \n\n "${arguments}"`,
             "stream": false
         }), headers: { "Content-Type": "application/json" }
     });

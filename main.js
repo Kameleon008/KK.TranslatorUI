@@ -62,6 +62,13 @@ function configureIpcMainEvents() {
         config.closeOnBlur = !config.closeOnBlur;
         saveAppsettings(config);
     });
+
+    ipcMain.on('target-language-changed', (event, targetLanguage) => {
+        console.log("target-language-changed", targetLanguage);
+        config.translationStrategyOptions.targetLanguage = targetLanguage;
+        mainWindow.webContents.send('translate', argsResults.text);
+        saveAppsettings(config);
+    });
 }
 
 function initalizeMainWindow() {
