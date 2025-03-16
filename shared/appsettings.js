@@ -3,7 +3,7 @@ const path = require("path");
 
 function saveAppsettings(config) {
     try {
-        const configPath = path.resolve(__dirname, "..", "appsettings.json");
+        const configPath = path.resolve(__dirname, "..", "local.appsettings.json");
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
     }
     catch (error) {
