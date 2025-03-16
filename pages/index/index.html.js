@@ -19,6 +19,7 @@ const buttonPin = document.getElementById('buttonPin')
 
 // Settings
 const selectTargetLanguage = document.getElementById('selectTargetLanguage')
+const selectTranslationStrategy = document.getElementById('selectTranslationStrategy')
 
 // Buttons Events
 buttonContrast.addEventListener('click', () => {
@@ -68,17 +69,23 @@ selectTargetLanguage.addEventListener('change', async (event) => {
     ipcRenderer.send('target-language-changed', event.target.value);
 });
 
+selectTranslationStrategy.addEventListener('change', async (event) => {
+    console.log("selectTranslationStrategy", event.target.value);
+    ipcRenderer.send('translation-strategy-changed', event.target.value);
+});
+
 // Inter Process Communication Events
 ipcRenderer.on('config', async (event, config) => {
     if (!config.closeOnBlur) {
         buttonPin.classList.add('active');
     }
 
+    selectTranslationStrategy.value = config.translationStrategy;
     selectTargetLanguage.value = config.translationStrategyOptions.targetLanguage;
     headerTargetLanguage.innerText = config.translationStrategyOptions.targetLanguage;
 });
 
-ipcRenderer.on('translate', async (event, textToTranslate) => {
+ipcRenderer.on('translate', async (event, textToTranslate, translationStrategy) => {
 
     translationResult.innerText = '';
     waitingBar.classList.remove(`progress-bar-container__hidden`);
@@ -86,7 +93,7 @@ ipcRenderer.on('translate', async (event, textToTranslate) => {
     contentContainer.classList.remove('acrylic-background__init');
     ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, contentContainer.clientHeight + 120);
 
-    const response = await getTranslationResult(textToTranslate);
+    const response = await getTranslationResult(textToTranslate, translationStrategy);
 
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
     translationContainer.classList.remove('translation-container__init');
@@ -103,11 +110,11 @@ ipcRenderer.on('close-window', () => {
     contentContainer.classList.add('acrylic-background__init');  // Apply the class to the content
 });
 
-async function getTranslationResult(textToTranslate) {
+async function getTranslationResult(textToTranslate, translationStrategy) {
 
     console.log(textToTranslate);
 
-    return await getStrategyResult("ollamaTranslate", textToTranslate);
+    return await getStrategyResult(textToTranslate, translationStrategy);
 }
 
 async function wait(ms) {

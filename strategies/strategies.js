@@ -1,4 +1,4 @@
-async function getStrategyResult(selectedStrategy, input) {
+async function getStrategyResult(input, selectedStrategy) {
 
     console.log("strategies/strategies.js: getStrategyResult", selectedStrategy, input);
 
