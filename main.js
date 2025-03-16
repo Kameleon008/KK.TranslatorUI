@@ -63,10 +63,19 @@ function configureIpcMainEvents() {
         saveAppsettings(config);
     });
 
+    // 'target-language-changed' event
     ipcMain.on('target-language-changed', (event, targetLanguage) => {
         console.log("target-language-changed", targetLanguage);
         config.translationStrategyOptions.targetLanguage = targetLanguage;
-        mainWindow.webContents.send('translate', argsResults.text);
+        mainWindow.webContents.send('translate', argsResults.text, config.translationStrategy);
+        saveAppsettings(config);
+    });
+
+    // 'translation-strategy-changed' event
+    ipcMain.on('translation-strategy-changed', (event, translationStrategy) => {
+        console.log("translation-strategy-changed", translationStrategy);
+        config.translationStrategy = translationStrategy;
+        mainWindow.webContents.send('translate', argsResults.text, config.translationStrategy);
         saveAppsettings(config);
     });
 }
@@ -96,7 +105,7 @@ function initalizeMainWindow() {
         mainWindow.webContents.once('did-finish-load', () => {
             mainWindow.webContents.send('theme', config.theme);
             mainWindow.webContents.send('config', config);
-            mainWindow.webContents.send('translate', argsResults.text);
+            mainWindow.webContents.send('translate', argsResults.text, config.translationStrategy);
         });
     }
 }
