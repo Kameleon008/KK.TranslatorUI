@@ -72,9 +72,10 @@ selectTargetLanguage.addEventListener('change', async (event) => {
 ipcRenderer.on('config', async (event, config) => {
     if (!config.closeOnBlur) {
         buttonPin.classList.add('active');
-        selectTargetLanguage.value = config.translationStrategyOptions.targetLanguage;
-        headerTargetLanguage.innerText = config.translationStrategyOptions.targetLanguage;
     }
+
+    selectTargetLanguage.value = config.translationStrategyOptions.targetLanguage;
+    headerTargetLanguage.innerText = config.translationStrategyOptions.targetLanguage;
 });
 
 ipcRenderer.on('translate', async (event, textToTranslate) => {

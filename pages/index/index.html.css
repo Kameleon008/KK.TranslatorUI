@@ -106,7 +106,7 @@ body {
 
 .progress-bar {
     width: 100%;
-    max-width: 500px;
+    max-width: 100vw;
     height: 1rem;
     background: var(--progress-bar-background-color);
     border-radius: 0.1rem;
