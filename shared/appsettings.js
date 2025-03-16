@@ -13,7 +13,7 @@ function saveAppsettings(config) {
 
 function loadAppsettings() {
     try {
-        const configPath = path.resolve(__dirname, "..", "appsettings.json");
+        const configPath = path.resolve(__dirname, "..", "local.appsettings.json");
         const data = fs.readFileSync(configPath, "utf-8");
         return JSON.parse(data);
     }
