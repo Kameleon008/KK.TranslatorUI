@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electron Arguments</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <link rel="stylesheet" href="./index.html.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
     <script defer src="./index.html.js"></script>
 </head>
 
@@ -16,6 +17,7 @@
         <!-- Header -->
         <div id="headerContainer" class="header-container">
             <div class="header">
+                <div id="headerTargetLanguage" class="header-title">Target</div>
                 <div class="header-buttons">
                     <button id="buttonContrast" class="material-icons-outlined icon-button">contrast</button>
                     <button id="buttonSettings" class="material-icons-outlined icon-button">settings</button>
@@ -44,23 +46,13 @@
             <!-- Settings (below some boilerplate code)-->
             <div id="settingsContainer" class="settings-container settings-container__init">
                 <div class="settings">
-                    <div class="settings-header">
-                        <div class="settings-header-title">Settings</div>
-                        <button id="buttonCloseSettings" class="material-icons-outlined icon-button">close</button>
-                    </div>
                     <div class="settings-content">
                         <div class="settings-content-item">
-                            <div class="settings-content-item-title">Language</div>
-                            <select id="selectLanguage" class="settings-content-item-select">
-                                <option value="en">English</option>
-                                <option value="ru">Russian</option>
-                            </select>
-                        </div>
-                        <div class="settings-content-item">
-                            <div class="settings-content-item-title">Theme</div>
-                            <select id="selectTheme" class="settings-content-item-select">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
+                            <div class="settings-content-item-title">Target Language:</div>
+                            <select id="selectTargetLanguage" class="settings-content-item-select form-select">
+                                <option value="PL">Polish</option>
+                                <option value="EN">English</option>
+                                <option value="DE">Deutsch</option>
                             </select>
                         </div>
                     </div>

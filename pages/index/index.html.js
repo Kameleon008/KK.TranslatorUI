@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-const { selectStrategy, getStrategyResult} = require('../../strategies/strategies')
+const { selectStrategy, getStrategyResult } = require('../../strategies/strategies')
 
 // HTML Elements
 const body = document.getElementById('body')
@@ -7,6 +7,7 @@ const contentContainer = document.getElementById('content')
 const waitingBar = document.getElementById('progressBarContainer')
 const translationContainer = document.getElementById('translationContainer')
 const translationResult = document.getElementById('translation')
+const headerTargetLanguage = document.getElementById('headerTargetLanguage')
 
 const translationContent = document.getElementById('translationContent')
 const settingsContent = document.getElementById('settingsContent')
@@ -15,6 +16,9 @@ const settingsContent = document.getElementById('settingsContent')
 const buttonContrast = document.getElementById('buttonContrast')
 const buttonSettings = document.getElementById('buttonSettings')
 const buttonPin = document.getElementById('buttonPin')
+
+// Settings
+const selectTargetLanguage = document.getElementById('selectTargetLanguage')
 
 // Buttons Events
 buttonContrast.addEventListener('click', () => {
@@ -58,22 +62,34 @@ buttonPin.addEventListener('click', () => {
     ipcRenderer.send('close-on-blur-changed');
 });
 
+selectTargetLanguage.addEventListener('change', async (event) => {
+    console.log("selectTargetLanguage", event.target.value);
+    headerTargetLanguage.innerText = event.target.value;
+    ipcRenderer.send('target-language-changed', event.target.value);
+});
 
 // Inter Process Communication Events
 ipcRenderer.on('config', async (event, config) => {
     if (!config.closeOnBlur) {
         buttonPin.classList.add('active');
+        selectTargetLanguage.value = config.translationStrategyOptions.targetLanguage;
+        headerTargetLanguage.innerText = config.translationStrategyOptions.targetLanguage;
     }
 });
 
 ipcRenderer.on('translate', async (event, textToTranslate) => {
 
+    translationResult.innerText = '';
+    waitingBar.classList.remove(`progress-bar-container__hidden`);
+    translationContainer.classList.add('translation-container__init');
     contentContainer.classList.remove('acrylic-background__init');
+    ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, contentContainer.clientHeight + 120);
+
     const response = await getTranslationResult(textToTranslate);
+
     translationResult.innerText = `${response.translatedText || 'N/A'}`;
     translationContainer.classList.remove('translation-container__init');
     waitingBar.classList.add(`progress-bar-container__hidden`);
-
     ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, contentContainer.clientHeight + 120);
 });
 
