@@ -25,9 +25,6 @@ app.whenReady().then(() => {
 
     // Configure Inter Process Comunication
     configureIpcMainEvents();
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
 });
 
 app.on('window-all-closed', () => {
@@ -92,7 +89,7 @@ function initalizeMainWindow() {
             frame: config.mainWindow.frame || false, // Remove window frame
             resizable: config.mainWindow.resizable || true, // Prevent manual resizing
             transparent: config.mainWindow.transparent || true, // Enable transparency
-            backgroundMaterial: config.mainWindow.backgroundMaterial || 'acrylic', // Apply acrylic effect on Windows
+            // backgroundMaterial: config.mainWindow.backgroundMaterial || 'acrylic', // Apply acrylic effect on Windows
             alwaysOnTop: config.mainWindow.alwaysOnTop || true, // Keep window on top
             x: cusrsorPosition.x, // Offset from the mouse position
             y: cusrsorPosition.y, // Offset from the mouse position
