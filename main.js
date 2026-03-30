@@ -25,6 +25,9 @@ app.whenReady().then(() => {
 
     // Configure Inter Process Comunication
     configureIpcMainEvents();
+
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
 });
 
 app.on('window-all-closed', () => {
