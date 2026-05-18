@@ -21,7 +21,8 @@ async function execute(arguments) {
                     "content": `Translate text below to ${targetLanguage}. In response i want to get just translated text.: \n\n "${arguments}"`
                 }
             ],
-            "stream": false
+            "stream": false,
+            "reasoning_effort": "none"
         }), headers: { "Content-Type": "application/json" }
     });
 

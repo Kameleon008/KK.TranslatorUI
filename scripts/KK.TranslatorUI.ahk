@@ -11,7 +11,7 @@
     FileAppend, %selectedText%, %tempFile%
 
     ; Change working directory
-    SetWorkingDir, C:\Users\Krzysztof\Desktop\KK.TranslatorUI  
+    SetWorkingDir, C:\Users\Krzysztof\Desktop\Github\KK.TranslatorUI  
 
     ; Run Electron app with the temp file path as argument
     Run, %ComSpec% /c npx electron . --file "%tempFile%", , Hide
