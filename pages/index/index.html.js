@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const { selectStrategy, getStrategyResult } = require('../../strategies/strategies')
+const { marked } = require('marked');
 
 // HTML Elements
 const body = document.getElementById('body')
@@ -95,7 +96,7 @@ ipcRenderer.on('translate', async (event, textToTranslate, translationStrategy) 
 
     const response = await getTranslationResult(textToTranslate, translationStrategy);
 
-    translationResult.innerText = `${response.translatedText || 'N/A'}`;
+    translationResult.innerHTML = marked.parse(response.translatedText || 'N/A'); 
     translationContainer.classList.remove('translation-container__init');
     waitingBar.classList.add(`progress-bar-container__hidden`);
     ipcRenderer.send('resize-window', contentContainer.clientWidth + 60, contentContainer.clientHeight + 120);
